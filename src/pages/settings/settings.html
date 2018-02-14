@@ -1,0 +1,39 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding id="page4">
+  <ion-list>
+    <ion-item>      
+      <ion-label>Select Language</ion-label>
+      <ion-select [(ngModel)]="language" (ngModelChange)="saveLanguage()">
+        <!--<ion-option value="eng">English</ion-option>
+        <ion-option value="sw">Swahili</ion-option>-->
+        <ion-option *ngFor="let key of languages" value={{key.Code}}>{{key.Name}}</ion-option>
+
+      </ion-select> 
+    </ion-item>
+
+     <ion-item>     
+      <p><a href="mailto:info@jsd-cog.org?Subject=Feedback" target="_blank" style="text-decoration: none;color:#000000;"><h1>FeedBack</h1></a></p>
+     </ion-item>
+
+     <ion-item>
+      <h1 (click)="tabSelected($event)">About</h1> 
+    </ion-item>
+  </ion-list>
+
+</ion-content>
+ 

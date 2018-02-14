@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon name="paper"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>Lesson</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding id="page2">
+    <ion-card>
+        <ion-list>
+            <ion-item>
+                    <ion-label>Year</ion-label>
+                    <ion-select [(ngModel)]="year" (ngModelChange)="GetQuarters($event)">
+                        <ion-option  *ngFor="let data of years" value={{data.year}}>{{data.year}}</ion-option>                              
+                    </ion-select>
+            </ion-item>
+            <ion-item>
+                    <ion-label>Quarter</ion-label>
+                    <ion-select [(ngModel)]="quarter" (ngModelChange)="GetQuarterDates($event)">
+                        <ion-option value="{{data.year + ',' + data.quarter}}" *ngFor="let data of quarters">{{data.quarter}}</ion-option>                               
+                    </ion-select>  
+            </ion-item>
+            <ion-item>
+                    <ion-label>Date</ion-label>
+                    <ion-select [(ngModel)]="date" (ngModelChange)="GetLesson($event)">
+                        <ion-option *ngFor="let data of dates" value={{data.id}}>{{data.date | date: 'dd/MMM/yyyy'}}</ion-option>                            
+                    </ion-select>
+            </ion-item>
+        </ion-list>    
+    </ion-card>   
+    <!-- Lesson Text -->
+    <br>
+    <ion-card *ngIf="text" padding>        
+        
+            <span *ngIf="BackwardShow" (click)="ShowLesson(1)" style="margin-left: 20px; text-align: left;"><ion-icon name="arrow-round-back" style="font-size:24px;"></ion-icon></span>        
+            
+            <!--<span (click)="showDatePicker()" style="position: absolute; right: 48%;"><ion-icon name="calendar" style="font-size:24px;"></ion-icon></span>-->
+            <!--<ion-datetime displayFormat="DD-MMM-YYYY" [(ngModel)]="today"></ion-datetime>-->
+            
+            <span *ngIf="ForwardShow" (click)="ShowLesson(-1)" style="right: 60px; position: absolute;"><ion-icon name="arrow-round-forward" style="font-size:24px;"></ion-icon></span>               
+    <br /><br />     
+    <div [innerHTML]="text | safe: 'html'" style="user-select:text; padding:4px;text-align:justify"></div>
+    </ion-card>
+
+    <ion-fab right bottom *ngIf="text">
+        <button ion-fab color="default"><ion-icon name="share"></ion-icon></button>
+        <ion-fab-list side="left">      
+        <button ion-fab color="secondary" (click)="twitterShare()"><ion-icon name="logo-twitter"></ion-icon></button>
+        <button ion-fab color="primary" (click)="facebookShare()"><ion-icon name="logo-facebook"></ion-icon></button>
+        <button ion-fab color="secondary" (click)="whatsappShare()"><ion-icon name="logo-whatsapp"></ion-icon></button>
+        <!--<button ion-fab color="default" (click)="otherShare()"><ion-icon name="share"></ion-icon></button>-->
+        </ion-fab-list>
+    </ion-fab>
+
+  <!--<button ion-button secondary menuToggle>Toggle Menu</button>-->
+</ion-content>
