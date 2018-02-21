@@ -1,6 +1,4 @@
-import {Injectable, Inject} from '@angular/core';
-import {Http} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
 import 'rxjs/Rx';
 
 @Injectable()
@@ -547,9 +545,9 @@ export class CalendarService{
   }
 
    G2H(nYearG, nMonthG, nDateG) {
-    let nYearH
-    let nMonthH
-    let nDateH
+    //let nYearH
+    //let nMonthH
+    //let nDateH
     let dGreg
 
     nYearG  = Number(nYearG)
@@ -563,9 +561,9 @@ export class CalendarService{
 
   //Get year in Hebrew
    G2HY(nYearG, nMonthG, nDateG) {
-    let nYearH
-    let nMonthH
-    let nDateH
+    //let nYearH
+    //let nMonthH
+    //let nDateH
     let dGreg
 
     nYearG  = Number(nYearG)

@@ -60,4 +60,16 @@
     </ion-fab>
 
   <!--<button ion-button secondary menuToggle>Toggle Menu</button>-->
+
+  <ion-list>
+    <ion-item class="text" *ngFor="let lesson of results | async">
+       Year: {{lesson.data.year}} <br>
+       Quarter: {{lesson.data.quarter}} <br>
+       Date: {{lesson.data.date}} <br>
+       Eng: {{lesson.data.eng}} <br>
+       Sw: {{lesson.data.sw}} <br>
+       ID: {{lesson.id}}
+    </ion-item>
+</ion-list>
+
 </ion-content>

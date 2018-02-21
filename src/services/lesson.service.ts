@@ -3,25 +3,47 @@ import { AlertController, LoadingController, ModalController } from 'ionic-angul
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import PouchDB from 'pouchdb';
+import {Lesson} from '../models/lesson.model';
+
+import{AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
 //import {VersesPage} from '../pages/verses/verses';
 
 @Injectable()
 export class LessonService{
    private localDB 	   : any;
-   private success : boolean = true;
    private _remoteDB 	: any;
    private _syncOpts 	: any;
    public datum : any;
    loadingPopup: any;
    baseUrl: String;
    items = [];
+
+   lessonsCol: AngularFirestoreCollection<Lesson>;
+   lessons: any;
+
     constructor (public http: Http, public alertCtrl : AlertController, public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController){      
+    public modalCtrl: ModalController, private afs: AngularFirestore){      
       this.initialiseDB();
+      this.lessonsCol =  this.afs.collection('lessons');
+    } 
+       
+    getLessonsFromFirestore(){
+       return this.lessonsCol.snapshotChanges()
+        .map(actions => {
+          return actions.map(a => {
+            const  data = a.payload.doc.data() as Lesson;
+            const id = a.payload.doc.id;
+            return {id, data};
+          });      
+    
+        });    
     }
 
     initialiseDB()
-   {
+    {
       this.localDB 			     = new PouchDB('jsd');
       //this._remoteDB 		 = 'http://localhost:5984/jsd';
       this._remoteDB 		 = 'http://199.231.187.90:5984/jsd';

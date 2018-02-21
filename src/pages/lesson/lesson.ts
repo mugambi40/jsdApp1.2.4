@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 import { NavController, LoadingController } from 'ionic-angular';
-import {Http, Response} from '@angular/http';
 import {LessonService} from '../../services/lesson.service';
 import {SettingsService} from '../../services/settings.service';
 import {SocialSharing} from '@ionic-native/social-sharing';
@@ -36,6 +35,8 @@ currentPos: number;
 ForwardShow: boolean = true;
 BackwardShow: boolean = true;
 
+results: any;
+
   constructor(
     public navCtrl: NavController, 
     private lessonService: LessonService, 
@@ -48,10 +49,15 @@ BackwardShow: boolean = true;
       this.imageUrl = "assets/images/Menorah.jpg";
       this.GetLanguage();
       this.GetYears();   
+      this.GetAllLessons();
 
       //this.GetVerses(0, 0,[1]);
 
     }
+
+GetAllLessons(){
+   this.results = this.lessonService.getLessonsFromFirestore()
+}
 
 GetYears(){ 
      this.presentLoading();
