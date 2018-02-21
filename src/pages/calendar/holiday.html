@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Holidays
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <div style ="margin: 20px;">
+       <span (click)="getHolidaysByYear(-1)"><ion-icon name="rewind" style="font-size:24px;"></ion-icon></span>
+        <span (click)="getHolidaysByYear(1)" style="float: right;"><ion-icon name="fastforward" style="font-size:24px;"></ion-icon></span>
+        <h5 style="text-align: center;">Biblical Feasts: {{selectedYear}}</h5>    
+       
+   <ion-list>
+        <ion-item (click)="GetHolidayDesc(1)">
+          <span style="text-align: center;display:block">Pesach Starts</span>
+          <br />
+          <span>{{pesachStartGreg}}</span>
+          <span style="float: right;">{{pesachStart}}</span>                 
+        </ion-item>
+
+        <ion-item (click)="GetHolidayDesc(2)">
+          <span style="text-align: center;display:block">Pesah</span>
+          <br />
+          <span>{{passoverGreg}}</span>
+          <span style="float: right;">{{passover}}</span>                 
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(3)">         
+          <span style="text-align: center;display:block">Pesach Ends</span>
+           <br />
+          <span>{{pesachEndGreg}}</span>
+          <span style="float: right;">{{pesachEnd}}</span> 
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(4)">
+          <span style="text-align: center;display:block">Shavuot</span>
+           <br />
+          <span>{{shavuotGreg}}</span>
+          <span style="float: right;">{{shavuot}}</span> 
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(5)">
+          <span style="text-align: center;display:block">Rosh Hashanah</span>
+           <br />
+          <span>{{roshHashanahGreg}}</span>
+          <span style="float: right;">{{roshHashanah}}</span>
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(6)">
+          <span style="text-align: center;display:block">Yom Kippur</span>
+           <br />
+          <span>{{yomKippurGreg}}</span>
+          <span style="float: right;">{{yomKippur}}</span>
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(7)">
+          <span style="text-align: center;display:block">Sukkot Starts</span>
+           <br />
+          <span>{{sukkotStartGreg}}</span>
+          <span style="float: right;">{{sukkotStart}}</span>
+        </ion-item>
+
+         <ion-item (click)="GetHolidayDesc(8)">
+          <span style="text-align: center;display:block">Sukkot Ends</span>
+           <br />
+          <span>{{sukkotEndGreg}}</span>
+          <span style="float: right;">{{sukkotEnd}}</span>
+        </ion-item>
+
+         <!--<ion-item (click)="GetHolidayDesc(9)">
+          <span style="text-align: center;display:block">Purim</span>
+           <br />
+          <span>{{purimGreg}}</span>
+          <span style="float: right;">{{purim}}</span>
+        </ion-item>-->
+      </ion-list>      
+      
+     </div>
+     <div style="text-align:justify;">
+      <p><strong>NOTE</strong></p>
+      <p>All holidays begin at sundown on the evening before the date specified in the list above. For example, if the dates for Rosh Hashana were listed as Sep 19, then the holiday begins at sundown on Sep 18 and ends at sundown on Sep 19.</p>
+     </div>
+</ion-content>

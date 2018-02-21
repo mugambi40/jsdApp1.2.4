@@ -1,0 +1,40 @@
+
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon name="calendar"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Calendar
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding id="page3">
+ <div style="margin-bottom: 50px;">   
+      <p style="text-align: center;">{{hebDate}}</p>     
+      <h4 style="text-align: center; color: blue; cursor:pointer; margin-top: 100px; margin-bottom: 150px;" (click)="ShowHolidays()">Holidays</h4>
+      <div style="position: relative; bottom: 10px;">
+        
+        <span (click)="convertToHebDateWeekly(-7)" style="margin-left:20px;"><ion-icon name="rewind" style="font-size:24px;"></ion-icon></span>
+      
+        <span (click)="convertToHebDate(-1)" style="margin-left: 20px; text-align: left;"><ion-icon name="arrow-round-back" style="font-size:24px;"></ion-icon></span>
+        
+        
+        <span (click)="showDatePicker()" style="position: absolute; right: 48%;"><ion-icon name="calendar" style="font-size:24px;"></ion-icon></span>
+        <!--<ion-datetime displayFormat="DD-MMM-YYYY" [(ngModel)]="today"></ion-datetime>-->
+        
+        <span (click)="convertToHebDate(1)" style="right: 60px; position: absolute;"><ion-icon name="arrow-round-forward" style="font-size:24px;"></ion-icon></span>
+        
+        <span (click)="convertToHebDateWeekly(7)" style="float: right; margin-right:20px;"><ion-icon name="fastforward" style="font-size:24px;"></ion-icon></span>
+      
+      </div>      
+    </div>  
+
+</ion-content>
+
