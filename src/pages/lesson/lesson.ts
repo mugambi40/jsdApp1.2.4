@@ -4,6 +4,9 @@ import { NavController, LoadingController } from 'ionic-angular';
 import {LessonService} from '../../services/lesson.service';
 import {SettingsService} from '../../services/settings.service';
 import {SocialSharing} from '@ionic-native/social-sharing';
+import { AngularFirestoreCollection } from 'angularfire2/firestore';
+import { LessonMeta } from '../../models/lesson.model';
+import { Observable } from '@firebase/util';
  
 //@IonicPage()
 @Component({
@@ -36,6 +39,7 @@ ForwardShow: boolean = true;
 BackwardShow: boolean = true;
 
 results: any;
+yearsCol: Observable<LessonMeta[]>;
 
   constructor(
     public navCtrl: NavController, 
@@ -49,79 +53,38 @@ results: any;
       this.imageUrl = "assets/images/Menorah.jpg";
       this.GetLanguage();
       this.GetYears();   
-      this.GetAllLessons();
-
-      //this.GetVerses(0, 0,[1]);
-
     }
 
-GetAllLessons(){
-   this.results = this.lessonService.getLessonsFromFirestore()
-}
-
 GetYears(){ 
-     this.presentLoading();
-     this.lessonService.getYears().then((data)=>
-      {
-         let existingData = Object.keys(data).length;
-          if(existingData !== 0)
-            {
-                this.hasLessons 	= true;
-                this.years 	= data;
-                this.loadingPopup.dismiss();
-            }
-          else
-          {
-              this.loadingPopup.dismiss();
-              console.log("we get nada!");
-          }
-      });
+    // this.hasLessons = true; 
+    this.yearsCol = this.lessonService.getYears();      
+
 }
 
+GetAllLessons(){
+    this.results = this.lessonService.getLessonsFromFirestore()
+ }
 
-GetQuarters(event){ 
-    console.log(event);
+
+GetQuarters(event){    
      if(event == undefined){
          return false;
      }
-     this.presentLoading();
-   
-     this.lessonService.GetQuarters(event).then((data)=>
-      {
-         let existingData = Object.keys(data).length;
-          if(existingData !== 0)
-            {                
-                this.quarters 	= data;
-                this.loadingPopup.dismiss();
-            }
-          else
-          {
-              this.loadingPopup.dismiss();
-              console.log("we get nada!");
-          }
-      });
+
+    this.quarters = this.lessonService.GetQuarters(event);
+    
+    console.log(this.quarters);
 }
 
 GetQuarterDates (event){ 
      if(event == undefined){
          return false;
      }
-     this.presentLoading();
-     this.lessonService.GetQuarterDates(event.split(',')[0], event.split(',')[1]).then((data)=>
-      {
-        //console.log(event);
-         let existingData = Object.keys(data).length;
-          if(existingData !== 0)
-            {                
-                this.dates 	= data;
-                this.loadingPopup.dismiss();
-            }
-          else
-          {
-              this.loadingPopup.dismiss();
-              console.log("we get nada!");
-          }
-      });
+    
+    this.dates = this.lessonService.GetQuarterDates(event.split(',')[0], event.split(',')[1]);
+    
+    console.log(this.dates);
+    
 }
 
 GetLesson(id){ 
@@ -148,29 +111,29 @@ GetLesson(id){
         this.ForwardShow = true;
     }
 
-    this.presentLoading();
-     this.lessonService.GetLesson(id, this.language).then((data)=>
-      {
-        //console.log(data);
-         let existingData = Object.keys(data).length;
-          if(existingData !== 0)
-            {                             
-                this.text = data["text"];               
-                this.lessonUrl =  data["lessonUrl"];
+    // this.presentLoading();
+    //  this.lessonService.GetLesson(id, this.language).then((data)=>
+    //   {
+    //     //console.log(data);
+    //      let existingData = Object.keys(data).length;
+    //       if(existingData !== 0)
+    //         {                             
+    //             this.text = data["text"];               
+    //             this.lessonUrl =  data["lessonUrl"];
                 
-                if(data["lessonUrl"] == undefined){
-                    this.lessonUrl =  "http://jsd-cog.org";
-                }
-                //this.navCtrl.push(LessonPartialPage, {data: data});
+    //             if(data["lessonUrl"] == undefined){
+    //                 this.lessonUrl =  "http://jsd-cog.org";
+    //             }
+    //             //this.navCtrl.push(LessonPartialPage, {data: data});
 
-                this.loadingPopup.dismiss();
-            }
-          else
-          {
-              this.loadingPopup.dismiss();
-              console.log("we get nada!");
-          }
-      });
+    //             this.loadingPopup.dismiss();
+    //         }
+    //       else
+    //       {
+    //           this.loadingPopup.dismiss();
+    //           console.log("we get nada!");
+    //       }
+    //   });
 }
 
 /*GetVerses(book, chap, verses = []){
@@ -209,7 +172,7 @@ showDatePicker(){
 
   handleSyncing(){
      //this.presentLoading();
-     this.lessonService.initialiseDB();
+    //  this.lessonService.initialiseDB();
       //this.hasLessons 	= true;
       this.years 	= null;
       this.GetYears();

@@ -18,20 +18,20 @@
             <ion-item>
                     <ion-label>Year</ion-label>
                     <ion-select [(ngModel)]="year" (ngModelChange)="GetQuarters($event)">
-                        <ion-option  *ngFor="let data of years" value={{data.year}}>{{data.year}}</ion-option>                              
+                        <ion-option  *ngFor="let yt of yearsCol | async" value={{yt.year}}>{{yt.year}}</ion-option>                              
                     </ion-select>
             </ion-item>
             <ion-item>
                     <ion-label>Quarter</ion-label>
                     <ion-select [(ngModel)]="quarter" (ngModelChange)="GetQuarterDates($event)">
-                        <ion-option value="{{data.year + ',' + data.quarter}}" *ngFor="let data of quarters">{{data.quarter}}</ion-option>                               
+                        <ion-option value="{{data.year + ',' + data.quarter}}" *ngFor="let data of quarters | async">{{data.quarter}}</ion-option>                               
                     </ion-select>  
             </ion-item>
             <ion-item>
                     <ion-label>Date</ion-label>
-                    <ion-select [(ngModel)]="date" (ngModelChange)="GetLesson($event)">
+                    <!-- <ion-select [(ngModel)]="date" (ngModelChange)="GetLesson($event)">
                         <ion-option *ngFor="let data of dates" value={{data.id}}>{{data.date | date: 'dd/MMM/yyyy'}}</ion-option>                            
-                    </ion-select>
+                    </ion-select> -->
             </ion-item>
         </ion-list>    
     </ion-card>   
@@ -62,13 +62,15 @@
   <!--<button ion-button secondary menuToggle>Toggle Menu</button>-->
 
   <ion-list>
-    <ion-item class="text" *ngFor="let lesson of results | async">
-       Year: {{lesson.data.year}} <br>
+    <ion-item class="text" *ngFor="let data of quarters | async">
+       <!-- Year: {{lesson.data.year}} <br>
        Quarter: {{lesson.data.quarter}} <br>
        Date: {{lesson.data.date}} <br>
        Eng: {{lesson.data.eng}} <br>
        Sw: {{lesson.data.sw}} <br>
-       ID: {{lesson.id}}
+       ID: {{lesson.id}} -->
+
+       {{data  | json}}
     </ion-item>
 </ion-list>
 
