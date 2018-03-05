@@ -29,49 +29,34 @@
             </ion-item>
             <ion-item>
                     <ion-label>Date</ion-label>
-                    <!-- <ion-select [(ngModel)]="date" (ngModelChange)="GetLesson($event)">
-                        <ion-option *ngFor="let data of dates" value={{data.id}}>{{data.date | date: 'dd/MMM/yyyy'}}</ion-option>                            
-                    </ion-select> -->
+                    <ion-select [(ngModel)]="date" (ngModelChange)="GetLesson($event)">
+                        <ion-option *ngFor="let d of dates | async" value={{d.id}}>{{d.data.date | date: 'dd/MMM/yyyy'}}</ion-option>                            
+                    </ion-select>
             </ion-item>
         </ion-list>    
     </ion-card>   
+    
     <!-- Lesson Text -->
     <br>
-    <ion-card *ngIf="text" padding>        
+    <ion-card *ngIf="lessonText" padding>        
         
-            <span *ngIf="BackwardShow" (click)="ShowLesson(1)" style="margin-left: 20px; text-align: left;"><ion-icon name="arrow-round-back" style="font-size:24px;"></ion-icon></span>        
-            
-            <!--<span (click)="showDatePicker()" style="position: absolute; right: 48%;"><ion-icon name="calendar" style="font-size:24px;"></ion-icon></span>-->
-            <!--<ion-datetime displayFormat="DD-MMM-YYYY" [(ngModel)]="today"></ion-datetime>-->
+            <span *ngIf="BackwardShow" (click)="ShowLesson(1)" style="margin-left: 20px; text-align: left;"><ion-icon name="arrow-round-back" style="font-size:24px;"></ion-icon></span>                    
             
             <span *ngIf="ForwardShow" (click)="ShowLesson(-1)" style="right: 60px; position: absolute;"><ion-icon name="arrow-round-forward" style="font-size:24px;"></ion-icon></span>               
     <br /><br />     
-    <div [innerHTML]="text | safe: 'html'" style="user-select:text; padding:4px;text-align:justify"></div>
+    <div [innerHTML]="lessonText.eng | async | safe: 'html'" style="user-select:text; padding:4px;text-align:justify"></div>
     </ion-card>
 
-    <ion-fab right bottom *ngIf="text">
+    <ion-fab right bottom *ngIf="lessonText">
         <button ion-fab color="default"><ion-icon name="share"></ion-icon></button>
         <ion-fab-list side="left">      
         <button ion-fab color="secondary" (click)="twitterShare()"><ion-icon name="logo-twitter"></ion-icon></button>
         <button ion-fab color="primary" (click)="facebookShare()"><ion-icon name="logo-facebook"></ion-icon></button>
         <button ion-fab color="secondary" (click)="whatsappShare()"><ion-icon name="logo-whatsapp"></ion-icon></button>
-        <!--<button ion-fab color="default" (click)="otherShare()"><ion-icon name="share"></ion-icon></button>-->
         </ion-fab-list>
     </ion-fab>
 
-  <!--<button ion-button secondary menuToggle>Toggle Menu</button>-->
-
-  <ion-list>
-    <ion-item class="text" *ngFor="let data of quarters | async">
-       <!-- Year: {{lesson.data.year}} <br>
-       Quarter: {{lesson.data.quarter}} <br>
-       Date: {{lesson.data.date}} <br>
-       Eng: {{lesson.data.eng}} <br>
-       Sw: {{lesson.data.sw}} <br>
-       ID: {{lesson.id}} -->
-
-       {{data  | json}}
-    </ion-item>
-</ion-list>
-
+    <div *ngIf="lessonText">{{lessonText.eng  | async }}</div>
+   
+    
 </ion-content>

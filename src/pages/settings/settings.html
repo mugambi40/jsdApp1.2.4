@@ -19,9 +19,8 @@
     <ion-item>      
       <ion-label>Select Language</ion-label>
       <ion-select [(ngModel)]="language" (ngModelChange)="saveLanguage()">
-        <!--<ion-option value="eng">English</ion-option>
-        <ion-option value="sw">Swahili</ion-option>-->
-        <ion-option *ngFor="let key of languages" value={{key.Code}}>{{key.Name}}</ion-option>
+
+        <ion-option *ngFor="let key of languages | async" value={{key.Code}}>{{key.Name}}</ion-option>
 
       </ion-select> 
     </ion-item>

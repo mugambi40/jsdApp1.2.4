@@ -10,12 +10,14 @@ import {SettingsService} from '../../services/settings.service';
 })
 export class SettingsPage {
 language: any;
-languages: any = [{"Name": "English", "Code":"eng"}, {"Name": "Kiswahili", "Code":"sw"}];;
+languages: any; //= [{"Name": "English", "Code":"eng"}, {"Name": "Kiswahili", "Code":"sw"}];;
   
   constructor(
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private settingsService: SettingsService) {
+
+    this.languages = settingsService.PopulateDdl();
    
     this.GetLanguage(); 
     

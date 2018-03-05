@@ -5,10 +5,9 @@ import {LessonService} from '../../services/lesson.service';
 import {SettingsService} from '../../services/settings.service';
 import {SocialSharing} from '@ionic-native/social-sharing';
 import { AngularFirestoreCollection } from 'angularfire2/firestore';
-import { LessonMeta } from '../../models/lesson.model';
+import { LessonMeta, Lesson } from '../../models/lesson.model';
 import { Observable } from '@firebase/util';
  
-//@IonicPage()
 @Component({
   selector: 'page-lesson',
   templateUrl: 'lesson.html',
@@ -24,7 +23,7 @@ years: any;
 quarters: any;
 dates: any;
 year: string;
-text: any;
+lessonText: any;
 id: number;
 quarter: string;
 date: any;
@@ -37,9 +36,10 @@ lessonUrl: string;
 currentPos: number;
 ForwardShow: boolean = true;
 BackwardShow: boolean = true;
+text: any;
 
 results: any;
-yearsCol: Observable<LessonMeta[]>;
+yearsCol: any;
 
   constructor(
     public navCtrl: NavController, 
@@ -56,14 +56,10 @@ yearsCol: Observable<LessonMeta[]>;
     }
 
 GetYears(){ 
-    // this.hasLessons = true; 
+
     this.yearsCol = this.lessonService.getYears();      
 
 }
-
-GetAllLessons(){
-    this.results = this.lessonService.getLessonsFromFirestore()
- }
 
 
 GetQuarters(event){    
@@ -71,9 +67,8 @@ GetQuarters(event){
          return false;
      }
 
-    this.quarters = this.lessonService.GetQuarters(event);
+    this.quarters = this.lessonService.GetQuarters(parseInt(event, 10));
     
-    console.log(this.quarters);
 }
 
 GetQuarterDates (event){ 
@@ -81,35 +76,34 @@ GetQuarterDates (event){
          return false;
      }
     
-    this.dates = this.lessonService.GetQuarterDates(event.split(',')[0], event.split(',')[1]);
-    
-    console.log(this.dates);
-    
+    this.dates = this.lessonService.GetQuarterDates(parseInt(event.split(',')[0], 10), parseInt(event.split(',')[1], 10));
+        
 }
 
 GetLesson(id){ 
      if(id == undefined){
          return false;
-     }
+     }    
 
      //Set Position
-    this.currentPos = this.dates.map(function(e) { return e.id; }).indexOf(id);
-    let datesLength = this.dates.length;  
-    if(this.currentPos == datesLength - 1){
-        this.BackwardShow = false;
-        //this.ForwardShow = false;
-    }
-    else if(this.currentPos < datesLength - 1){
-        this.BackwardShow = true;
-    }
+    //this.currentPos = this.dates.map(function(e) { return e.id; }).indexOf(id);
+    //let datesLength = this.dates.length;  
+    
+    // if(this.currentPos == datesLength - 1){
+    //     this.BackwardShow = false;
+    //     //this.ForwardShow = false;
+    // }
+    // else if(this.currentPos < datesLength - 1){
+    //     this.BackwardShow = true;
+    // }
 
-    if(this.currentPos == 0){
-        //this.BackwardShow = false;
-        this.ForwardShow = false;
-    }
-    else if(this.currentPos > 0){
-        this.ForwardShow = true;
-    }
+    // if(this.currentPos == 0){
+    //     //this.BackwardShow = false;
+    //     this.ForwardShow = false;
+    // }
+    // else if(this.currentPos > 0){
+    //     this.ForwardShow = true;
+    // }
 
     // this.presentLoading();
     //  this.lessonService.GetLesson(id, this.language).then((data)=>
@@ -134,11 +128,11 @@ GetLesson(id){
     //           console.log("we get nada!");
     //       }
     //   });
+
+    this.lessonText = this.lessonService.GetLesson(id);
+    
 }
 
-/*GetVerses(book, chap, verses = []){
-     let data = this.lessonService.GetVerses(book, chap, verses);   
-}*/
 
 ShowLesson(d){ 
 
@@ -146,7 +140,6 @@ ShowLesson(d){
     this.currentPos += d;  
 
        console.log(this.currentPos);
-       //console.log(this.dates[this.currentPos]);
        this.GetLesson(this.dates[this.currentPos].id);
 }
 
@@ -170,21 +163,6 @@ showDatePicker(){
       });
   }
 
-  handleSyncing(){
-     //this.presentLoading();
-    //  this.lessonService.initialiseDB();
-      //this.hasLessons 	= true;
-      this.years 	= null;
-      this.GetYears();
-0
-     /*setInterval(function()
-     { 
-        console.log("Synced");
-        this.loadingPopup.dismiss();
-     }, 3000);*/
-
-     
-  }
 
  presentLoading(){
     this.loadingPopup = this.loadingCtrl.create({
@@ -219,7 +197,7 @@ showDatePicker(){
          //alert("Success");
      },
      ()=>{
-         console.log(this.text.replace(/<(?:.|\n)*?>/gm, ''));
+         //console.log(this.lessonText.replace(/<(?:.|\n)*?>/gm, ''));
          alert("Failed");
      });
  }

@@ -23,16 +23,17 @@ export class LessonService{
 
    lessonsCol: AngularFirestoreCollection<Lesson>;
    lessonsMetaCol: AngularFirestoreCollection<LessonMeta>;
-   quartersMetaCol: AngularFirestoreCollection<LessonMeta>;
+
+   lessonsData: AngularFirestoreDocument<Lesson>;
+
    lessons: any;
    years: any;
    quarters: any;
-   dates: any;
+   dates: any;   
 
     constructor (public http: Http, public alertCtrl : AlertController, public loadingCtrl: LoadingController,
     public modalCtrl: ModalController, private afs: AngularFirestore){   
-      this.lessonsCol =  this.afs.collection('lessons');
-      this.lessonsMetaCol =  this.afs.collection('lessonsMeta');
+        
     } 
 
     getYears(){
@@ -40,22 +41,16 @@ export class LessonService{
             return ref.orderBy('year', 'desc');
         });
 
-        this.years = this.lessonsMetaCol.valueChanges();
-
-        return this.years;
+        return this.lessonsMetaCol.valueChanges();
     }
        
     GetQuarters(year:number){       
-        // this.quartersMetaCol = this.afs.collection('lessonsMeta', ref =>{
-        //      ref.where('year', '==', year); //.orderBy('quarter', 'desc'); //;
-        // });
+        this.lessonsMetaCol = this.afs.collection('lessonsMeta', ref =>{          
+            return ref.where('year', '==', year).orderBy('quarter', 'desc'); 
+        });
 
-        this.quartersMetaCol = this.afs.collection('lessonsMeta', ref => 
-        ref.orderBy('quarter', 'desc') );
 
-        this.quarters = this.quartersMetaCol.valueChanges();
-
-        return this.quarters;
+        return this.lessonsMetaCol.valueChanges();
     }
 
     GetQuarterDates(year:number, quarter:number){
@@ -63,22 +58,25 @@ export class LessonService{
             return ref.orderBy('date', 'desc').where('year', '==', year).where('quarter', '==', quarter);
         });
 
-        this.dates = this.lessonsCol.valueChanges();
-
-        return this.dates;
+        return this.lessonsCol.snapshotChanges().map(actions => {
+            return actions.map(a => {
+              const  data = a.payload.doc.data() as Lesson;
+              const id = a.payload.doc.id;
+              return {id, data};
+            });      
+    
+          });
     }
 
 
-    getLessonsFromFirestore(){
-       return this.lessonsCol.snapshotChanges()
-        .map(actions => {
-          return actions.map(a => {
-            const  data = a.payload.doc.data() as Lesson;
-            const id = a.payload.doc.id;
-            return {id, data};
-          });      
-    
-        });    
+    GetLesson(id) : Observable<Lesson>{     
+       
+
+        this.lessonsData = this.afs.doc('lessons/' + id);
+
+        return this.lessonsData.valueChanges();
+
+        
     }
    
     presentLoading(){
