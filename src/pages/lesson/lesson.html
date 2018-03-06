@@ -44,7 +44,7 @@
             
             <span *ngIf="ForwardShow" (click)="ShowLesson(-1)" style="right: 60px; position: absolute;"><ion-icon name="arrow-round-forward" style="font-size:24px;"></ion-icon></span>               
     <br /><br />     
-    <div [innerHTML]="lessonText.eng | async | safe: 'html'" style="user-select:text; padding:4px;text-align:justify"></div>
+    <div [innerHTML]="(lessonText | async)?.eng | safe: 'html'" style="user-select:text; padding:4px;text-align:justify"></div>
     </ion-card>
 
     <ion-fab right bottom *ngIf="lessonText">
@@ -55,8 +55,6 @@
         <button ion-fab color="secondary" (click)="whatsappShare()"><ion-icon name="logo-whatsapp"></ion-icon></button>
         </ion-fab-list>
     </ion-fab>
-
-    <div *ngIf="lessonText">{{lessonText.eng  | async }}</div>
    
-    
+   
 </ion-content>

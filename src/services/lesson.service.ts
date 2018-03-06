@@ -69,13 +69,12 @@ export class LessonService{
     }
 
 
-    GetLesson(id) : Observable<Lesson>{     
+    GetLesson(id) : any{     
        
 
         this.lessonsData = this.afs.doc('lessons/' + id);
 
-        return this.lessonsData.valueChanges();
-
+        return this.lessonsData.valueChanges(); 
         
     }
    
